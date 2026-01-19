@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Srihari Mohandas - Portfolio</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#0b1020;
+      --card:#1a1430;
+      --card2:#120f24;
+      --text:#e9e7ff;
+      --muted:rgba(233,231,255,.72);
+      --border:rgba(255,255,255,.08);
+      --shadow:rgba(0,0,0,.35);
+      --accent1:#ff2d7a;
+      --accent2:#7c3aed;
+      --accent3:#22c1ff;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body{
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: #fff;
+      background: linear-gradient(135deg, #1a0b2e 0%, #2d1b4e 50%, #1a0b2e 100%);
+      overflow-x: hidden;
+    }
+
+    .animated-bg{
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 20% 50%, rgba(255, 0, 150, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 150, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(150, 0, 255, 0.15) 0%, transparent 50%);
+      animation: bgShift 15s ease-in-out infinite;
+    }
+
+    @keyframes bgShift{
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.8; transform: scale(1.1); }
+    }
+
+    .scroll-indicator{
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 5px;
+      width: 0%;
+      background: linear-gradient(90deg, #ff006e, #8338ec, #3a86ff);
+      z-index: 9999;
+      transition: width 0.1s;
+      box-shadow: 0 0 20px rgba(255, 0, 150, 0.8);
+    }
+
+    .particles{
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .particle{
+      position: absolute;
+      border-radius: 50%;
+      animation: float 15s infinite ease-in-out;
+      opacity: 0.35;
+      background: rgba(255,255,255,0.18);
+    }
+
+    @keyframes float{
+      0%, 100% { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0.3; }
+      25% { transform: translateY(-100px) translateX(50px) rotate(90deg); opacity: 0.6; }
+      50% { transform: translateY(-50px) translateX(-50px) rotate(180deg); opacity: 0.4; }
+      75% { transform: translateY(-120px) translateX(80px) rotate(270deg); opacity: 0.7; }
+    }
+
+    .top-nav{
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      justify-content: center;
+      gap: 18px;
+      padding: 14px 16px;
+      background: rgba(10, 6, 20, 0.65);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+
+    .top-nav a{
+      color: rgba(255,255,255,0.85);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .top-nav a:hover{ color: #ff006e; }
+
+    .header{
+      position: relative;
+      padding: 5rem 2rem;
+      text-align: center;
+      overflow: hidden;
+      z-index: 1;
+    }
+
+    .header::before{
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+      animation: shimmer 8s linear infinite;
+    }
+
+    @keyframes shimmer{
+      0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+    }
+
+    .header-content{ position: relative; z-index: 1; }
+
+    .hero-intro{
+      font-family: monospace;
+      font-size: 0.85rem;
+      letter-spacing: 0.25em;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 0.8rem;
+    }
+
+    .hero-name{
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #eaffff;
+      text-shadow:
+        0 0 6px rgba(120, 255, 255, 0.9),
+        0 0 14px rgba(120, 255, 255, 0.7),
+        0 0 30px rgba(120, 255, 255, 0.5);
+      line-height: 1.05;
+      margin-bottom: 1rem;
+    }
+
+    .hero-role{
+      font-family: monospace;
+      font-size: 0.9rem;
+      letter-spacing: 0.2em;
+      color: rgba(255,255,255,0.75);
+      margin-top: 0.5rem;
+    }
+
+    .typing-text{
+      font-size: 1.1rem;
+      min-height: 1.8rem;
+      margin-top: 1rem;
+      opacity: 0.9;
+      color: rgba(255,255,255,0.85);
+    }
+
+    .cta-buttons{
+      margin-top: 2.5rem;
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .cta-primary{
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, #ff006e 0%, #8338ec 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+      box-shadow: 0 10px 30px rgba(255, 0, 150, 0.4);
+      border: none;
+      cursor: pointer;
+    }
+
+    .cta-primary:hover{
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 15px 40px rgba(255, 0, 150, 0.6);
+    }
+
+    .cta-secondary{
+      padding: 1rem 2.5rem;
+      background: transparent;
+      color: white;
+      text-decoration: none;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: all 0.3s;
+      border: 2px solid rgba(255, 255, 255, 0.6);
+    }
+
+    .cta-secondary:hover{
+      background: rgba(255, 255, 255, 0.15);
+      transform: translateY(-4px);
+    }
+
+    .container{
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .section{
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      margin: 2rem 0;
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section::before{
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 0, 150, 0.1), transparent);
+      transition: left 0.7s;
+    }
+
+    .section:hover::before{ left: 100%; }
+
+    .section h2{
+      background: linear-gradient(135deg, #ff006e 0%, #8338ec 50%, #3a86ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+      border-bottom: 3px solid;
+      border-image: linear-gradient(90deg, #ff006e, #8338ec, #3a86ff) 1;
+      padding-bottom: 0.8rem;
+      display: inline-block;
+    }
+
+    .statement{
+      background: linear-gradient(135deg, rgba(255, 0, 150, 0.15) 0%, rgba(138, 56, 236, 0.15) 100%);
+      border-left: 5px solid #ff006e;
+      padding: 2rem;
+      font-size: 1.08rem;
+      line-height: 1.9;
+      border-radius: 15px;
+      box-shadow: 0 10px 30px rgba(255, 0, 150, 0.2);
+      transition: all 0.3s;
+      color: #fff;
+    }
+
+    .statement:hover{
+      transform: translateX(8px);
+      box-shadow: 0 15px 40px rgba(255, 0, 150, 0.4);
+      background: linear-gradient(135deg, rgba(255, 0, 150, 0.25) 0%, rgba(138, 56, 236, 0.25) 100%);
+    }
+
+    .project-grid{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .project-card{
+      background: linear-gradient(135deg, rgba(58, 134, 255, 0.15) 0%, rgba(138, 56, 236, 0.15) 100%);
+      padding: 2rem;
+      border-radius: 20px;
+      border: 2px solid rgba(58, 134, 255, 0.3);
+      transition: all 0.35s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card::before{
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(58, 134, 255, 0.2), transparent);
+      transition: left 0.7s;
+    }
+
+    .project-card:hover::before{ left: 100%; }
+
+    .project-card:hover{
+      transform: translateY(-10px);
+      box-shadow: 0 25px 60px rgba(58, 134, 255, 0.45);
+      border-color: #3a86ff;
+    }
+
+    .project-card h3{
+      color: #3a86ff;
+      margin-bottom: 1rem;
+      font-size: 1.4rem;
+      text-shadow: 0 0 10px rgba(58, 134, 255, 0.3);
+    }
+
+    .project-card p{
+      color: rgba(255, 255, 255, 0.9);
+      margin-bottom: 0.6rem;
+      font-size: 0.95rem;
+    }
+
+    .project-url{
+      width: 100%;
+      padding: 1rem;
+      margin-top: 1rem;
+      border: 2px solid rgba(58, 134, 255, 0.3);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+      background: rgba(0, 0, 0, 0.3);
+      color: #fff;
+    }
+
+    .project-url:focus{
+      outline: none;
+      border-color: #3a86ff;
+      box-shadow: 0 0 0 4px rgba(58, 134, 255, 0.2);
+      background: rgba(0, 0, 0, 0.5);
+    }
+
+    .project-url::placeholder{ color: rgba(255, 255, 255, 0.5); }
+
+    .video-link{
+      color: #3a86ff;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .video-link:hover{ text-decoration: underline; }
+
+    /* Experience title in a box */
+    .section-title-box{
+      display: inline-block;
+      padding: 18px 28px;
+      border-radius: 16px;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 60, 172, 0.18),
+        rgba(120, 75, 160, 0.18),
+        rgba(43, 134, 197, 0.18)
+      );
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.12);
+      margin-bottom: 26px;
+    }
+
+    .fancy-section-title{
+      font-size: 2.2rem;
+      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(90deg, #ff3cac, #784ba0, #2b86c5);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      position: relative;
+      margin: 0;
+    }
+
+    .fancy-section-title::after{
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -10px;
+      width: 100%;
+      height: 3px;
+      border-radius: 2px;
+      background: linear-gradient(90deg, #ff3cac, #784ba0, #2b86c5);
+    }
+
+    .fancy-section-title .icon{ font-size: 1.4rem; }
+
+    /* Experience cards */
+    .xp-wrap{
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(20px);
+      margin: 2rem 0;
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .xp-grid{
+      display: grid;
+      gap: 18px;
+    }
+
+    .xp-card{
+      position: relative;
+      background: linear-gradient(180deg, rgba(124,58,237,.14), rgba(255,45,122,.07)) , linear-gradient(180deg, var(--card), var(--card2));
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 18px 50px var(--shadow);
+      overflow: hidden;
+      padding: 18px;
+    }
+
+    .xp-card::before{
+      content:"";
+      position:absolute;
+      left:0;
+      top:0;
+      height:100%;
+      width:6px;
+      background: linear-gradient(180deg, var(--accent1), var(--accent2), var(--accent3));
+    }
+
+    .xp-head{
+      display:flex;
+      align-items:flex-start;
+      gap:14px;
+      padding-left: 10px;
+    }
+
+    .xp-icon{
+      width:48px;
+      height:48px;
+      border-radius: 14px;
+      display:grid;
+      place-items:center;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.10);
+      box-shadow: 0 10px 26px rgba(0,0,0,.25);
+      flex: 0 0 auto;
+      font-size: 22px;
+    }
+
+    .xp-main{ flex: 1 1 auto; min-width: 240px; }
+
+    .xp-role{
+      margin:0;
+      font-size: 1.25rem;
+      font-weight: 800;
+      color: var(--text);
+      line-height: 1.15;
+    }
+
+    .xp-company{
+      margin: 4px 0 0;
+      font-weight: 700;
+      color: var(--accent1);
+      opacity: .95;
+    }
+
+    .xp-meta{
+      margin-left:auto;
+      text-align:right;
+      padding-left: 10px;
+      min-width: 210px;
+    }
+
+    .xp-meta .xp-loc{
+      color: var(--muted);
+      font-size: .9rem;
+      margin: 2px 0 0;
+    }
+
+    .xp-meta .xp-dates{
+      color: rgba(255,255,255,.85);
+      font-weight: 700;
+      margin: 6px 0 0;
+      font-size: .92rem;
+    }
+
+    .xp-body{
+      padding-left: 72px;
+      margin-top: 12px;
+    }
+
+    .xp-list{
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display:grid;
+      gap: 10px;
+    }
+
+    .xp-item{
+      display:flex;
+      gap: 10px;
+      align-items:flex-start;
+      color: rgba(255,255,255,.88);
+      line-height: 1.5;
+      font-size: .98rem;
+    }
+
+    .xp-bolt{
+      width:22px;
+      height:22px;
+      flex: 0 0 auto;
+      margin-top: 1px;
+      display:grid;
+      place-items:center;
+      border-radius: 8px;
+      background: rgba(124,58,237,.14);
+      border: 1px solid rgba(124,58,237,.30);
+      color: rgba(233,231,255,.95);
+      font-size: 14px;
+    }
+
+    .xp-card:hover{
+      transform: translateY(-2px);
+      transition: transform .18s ease, border-color .18s ease;
+      border-color: rgba(255,255,255,.14);
+    }
+
+    .skills-grid{
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+
+    .skill-category{
+      background: linear-gradient(135deg, rgba(255, 0, 150, 0.15) 0%, rgba(138, 56, 236, 0.15) 100%);
+      padding: 2rem;
+      border-radius: 15px;
+      border: 2px solid rgba(255, 0, 150, 0.3);
+      transition: all 0.35s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-category:hover{
+      transform: translateY(-10px);
+      box-shadow: 0 20px 50px rgba(255, 0, 150, 0.35);
+      border-color: #ff006e;
+    }
+
+    .skill-category h3{
+      color: #ff006e;
+      margin-bottom: 1rem;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .skill-category p{
+      color: rgba(255, 255, 255, 0.9);
+      font-size: 0.95rem;
+      line-height: 1.7;
+    }
+
+    .education-item{
+      margin-bottom: 2rem;
+      padding: 2rem;
+      background: linear-gradient(135deg, rgba(255, 0, 150, 0.1) 0%, rgba(138, 56, 236, 0.1) 100%);
+      border-radius: 15px;
+      transition: all 0.35s;
+      border-left: 5px solid #ff006e;
+    }
+
+    .education-item:hover{
+      transform: translateX(10px);
+      box-shadow: 0 15px 40px rgba(255, 0, 150, 0.35);
+      background: linear-gradient(135deg, rgba(255, 0, 150, 0.2) 0%, rgba(138, 56, 236, 0.2) 100%);
+    }
+
+    .education-item h3{
+      color: #3a86ff;
+      font-size: 1.4rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .education-item .institution{
+      color: #ff006e;
+      font-weight: bold;
+      margin-bottom: 0.4rem;
+      font-size: 1.1rem;
+    }
+
+    .education-item .duration{
+      color: rgba(255, 255, 255, 0.7);
+      font-size: 0.95rem;
+      margin-bottom: 0.7rem;
+    }
+
+    .contact-info{
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: flex-start;
+    }
+
+    .contact-btn{
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem 2rem;
+      border: 2px solid rgba(255,255,255,0.4);
+      border-radius: 30px;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      font-weight: 600;
+    }
+
+    .contact-btn:hover{
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(255, 0, 150, 0.35);
+      border-color: rgba(255,255,255,0.8);
+    }
+
+    @media (max-width: 760px){
+      .xp-head{ flex-wrap: wrap; }
+      .xp-meta{ text-align:left; margin-left: 72px; min-width: unset; }
+      .xp-body{ padding-left: 10px; }
+    }
+
+    @media (max-width: 768px){
+      .skills-grid, .project-grid { grid-template-columns: 1fr; }
+      .cta-buttons { flex-direction: column; }
+      .contact-info { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="animated-bg"></div>
+  <div class="scroll-indicator" id="scrollIndicator"></div>
+  <div class="particles" id="particles"></div>
+
+  <nav class="top-nav">
+    <a href="#about">About</a>
+    <a href="#experience">Experience</a>
+    <a href="#projects">Projects</a>
+    <a href="#skills">Skills</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </nav>
+
+  <header class="header" id="about">
+    <div class="header-content">
+      <div class="hero-intro">HEY THERE, I AM</div>
+      <h1 class="hero-name">SRIHARI<br>MOHANDAS</h1>
+      <p class="hero-role">👩🏻‍💻 Software Developer | Front End Production | QA and Content Delivery 📈</p>
+      <div class="typing-text" id="typingText"></div>
+
+      <div class="cta-buttons">
+        <a href="#experience" class="cta-primary">View Experience</a>
+        <a href="#projects" class="cta-secondary">See Projects</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section class="section">
+      <h2>💫 Professional Statement</h2>
+      <div class="statement">
+        Front end professional with 3+ years of experience delivering customer facing web pages and improvements across production environments.
+        Experienced working from briefs, building and updating UI and content using HTML, CSS and JavaScript, preparing and optimising assets, and ensuring work meets UX and visual guidelines.
+        Strong focus on quality and accuracy, with hands on experience in QA, regression testing, cross browser checks and UAT to support right first time releases.
+        Comfortable collaborating with marketing, product, analytics and QA teams, and measuring impact through agreed KPIs and reporting.
+      </div>
+    </section>
+
+    <section class="section" id="projects">
+      <h2>🎨 Featured Projects & Work Examples</h2>
+
+      <div class="project-grid">
+        <div class="project-card">
+          <h3>🎯 E-Commerce Dashboard Optimization</h3>
+          <p><strong>Technologies:</strong> JavaScript, HTML5, CSS3, Power BI</p>
+          <p>Redesigned customer-facing dashboard serving 1,000+ users with focus on UI and performance improvements. Implemented A/B testing to measure impact.</p>
+          <input type="text" class="project-url" placeholder="Maybank private" />
+        </div>
+
+        <div class="project-card">
+          <h3>📊 Variant Testing Framework</h3>
+          <p><strong>Technologies:</strong> JavaScript, React, Analytics Tools</p>
+          <p>Built hypothesis-driven UI improvements with variant-based testing. Measured conversion impact through KPI dashboards and iterative refinement.</p>
+          <input type="text" class="project-url" placeholder="Private" />
+        </div>
+
+        <div class="project-card">
+          <h3>🧩 Front-End Content & Page Delivery</h3>
+          <p><strong>Technologies:</strong> JavaScript, HTML, CSS</p>
+          <p>Delivered and maintained customer facing pages and UI components in production, focusing on responsive layout, cross browser behaviour, and visual consistency.</p>
+          <input type="text" class="project-url" placeholder="Private" />
+        </div>
+
+        <div class="project-card">
+          <h3>⚡ Performance Optimization Project</h3>
+          <p><strong>Technologies:</strong> JavaScript, Performance Checks</p>
+          <p>Improved page performance by removing unnecessary UI work and validating improvements through performance checks and real device testing.</p>
+          <input type="text" class="project-url" placeholder="Private" />
+        </div>
+
+        <div class="project-card">
+          <h3>📍 Location Based Alarm App (Android)</h3>
+          <p><strong>Technologies:</strong> Kotlin</p>
+          <p>Location based alarm app that wakes users when they are within a set distance of their destination, useful during train or bus journeys when timings are unreliable.</p>
+          <p>Built with focus on reliability, handling delayed journeys, inaccurate GPS, background execution limits and battery usage.</p>
+          <p><a href="video/location-alarm-demo.mp4" target="_blank" class="video-link">▶ Short demo video</a></p>
+        </div>
+
+        <div class="project-card">
+          <h3>📝 ExamQuest: Online Examination Platform</h3>
+          <p><strong>Built with:</strong> React (frontend), Node.js (backend)</p>
+          <p>Web based exam platform allowing users to log in, take exams, and view results with clear user journeys, validation and consistent session behaviour.</p>
+          <p><a href="video/examquest-demo.mp4" target="_blank" class="video-link">▶ Short demo video</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section class="xp-wrap" id="experience">
+      <div class="section-title-box">
+        <h2 class="fancy-section-title"><span class="icon">🎯</span>Professional Experience</h2>
+    
+
+      <div class="xp-grid">
+        <article class="xp-card">
+          <div class="xp-head">
+            <div class="xp-icon">🎯</div>
+            <div class="xp-main">
+              <h3 class="xp-role">Customer Service Advisor</h3>
+              <div class="xp-company">Boots Support Office</div>
+            </div>
+            <div class="xp-meta">
+              <div class="xp-loc">Nottingham, UK</div>
+              <div class="xp-dates">August 2025 to Present</div>
+            </div>
+          </div>
+          <div class="xp-body">
+            <ul class="xp-list">
+              <li class="xp-item"><span class="xp-bolt">⚡</span><span>Completed full training within one month and transitioned into a permanent position.</span></li>
+              <li class="xp-item"><span class="xp-bolt">⚡</span><span>Built working knowledge of Boots systems, policies and support processes, with exposure to boots.com customer journeys and common friction points.</span></li>
+              <li class="xp-item"><span class="xp-bolt">⚡</span><span>Strengthened communication and problem solving through high volume customer interactions across digital and retail channels.</span></li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="xp-card">
+          <div class="xp-head">
+            <div class="xp-icon">📊</div>
+            <div class="xp-main">
+              <h3 class="xp-role">Front End Optimisation and Analyst</h3>
+              <div class="xp-company">Al Rahbani Building Material</div>
+            </div>
+            <div class="xp-meta">
+              <div class="xp-loc">Remote</div>
+              <div class="xp-dates">November 2024 to July 2025</div>
+            </div>
+          </div>
+          <div class="xp-body">
+            <ul class="xp-list">
+              <li class="xp-item"><span class="xp-bolt">⚡</span><span>Built Power BI dashboards to track KPIs and monitor impact following releases.</span></li>
+              <li class="xp-item"><span class="xp-bolt">⚡</span><span>Delivered hypothesis led UI improvements, shipped small front end changes and measured outcomes using reporting.</span></li>
+              <li class="xp-item"><span class="xp-bolt">⚡</span><span>Implemented variant based updates for key flows and compared performance using before and after analysis.</span></li>
+              <li class="xp-item"><span class="xp-bolt">⚡</span><span>Defined success metrics with stakeholders, documented learnings, and prioritised next iterations.</span></li>
+              <li class="xp-item"><span class="xp-bolt">⚡</span><span>Owned release QA including regression testing, cross browser checks and UAT.</span></li>
+            </ul>
+          </div>
+          
+        </article>
+        
+
+        <article class="xp-card">
+          <div class="xp-head">
+            <div class="xp-icon">💻</div>
+            <div class="xp-main">
+              <h3 class="xp-role">Product Software Engineer</h3>
+              <div class="xp-company">Maybank</div>
+            </div>
+            <div class="xp-meta">
+              <div class="xp-loc">Bengaluru, India</div>
+              <div class="xp-dates">June 2021 to August 2023</div>
+            </div>
+          </div>
+          <div class="xp-body">
+            <ul class="xp-list">
+              <li class="xp-item"><span class="xp-bolt">⚡</span><span>Built and iterated customer facing web UI, delivering enhancements from brief to production in small, testable increments.</span></li>
+              <li class="xp-item"><span class="xp-bolt">⚡</span><span>Implemented front end features using JavaScript, HTML and CSS, including DOM interactions, forms and dynamic rendering in an existing codebase.</span></li>
+              <li class="xp-item"><span class="xp-bolt">⚡</span><span>Worked closely with product, analytics, design and QA to refine requirements and incorporate feedback quickly.</span></li>
+              <li class="xp-item"><span class="xp-bolt">⚡</span><span>Improved responsiveness by reducing unnecessary UI work and optimising data access for key journeys.</span></li>
+            </ul>
+          </div>
+        </article>
+      </div>
+      </div>
+    </section>
+
+    <section class="section" id="skills">
+      <h2>💻 Technical Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <h3>💻 Front End Development</h3>
+          <p>JavaScript, HTML5, CSS3, React, DOM manipulation, responsive design, cross browser compatibility, accessibility basics</p>
+        </div>
+
+        <div class="skill-category">
+          <h3>📝 Content and Tools</h3>
+          <p>Working with web content and assets, basic image optimisation, AEM learning, UI and visual guideline adherence</p>
+        </div>
+
+        <div class="skill-category">
+          <h3>🎨 Design and Production</h3>
+          <p>Photoshop, visual consistency, pixel accuracy, brand alignment, asset preparation for web</p>
+        </div>
+
+        <div class="skill-category">
+          <h3>📈 Analytics and QA</h3>
+          <p>Power BI, KPI tracking, hypothesis led iteration, regression testing, UAT, cross browser checks</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="education">
+      <h2>🎓 Education</h2>
+
+      <div class="education-item">
+        <h3>MSc Mechanical Engineering</h3>
+        <div class="institution">University of Nottingham</div>
+        <div class="duration">Nottingham, UK | Sept 2023 to Dec 2024</div>
+        <p>Strong analytical foundation, structured delivery, documentation and stakeholder communication across projects.</p>
+      </div>
+
+      <div class="education-item">
+        <h3>B.Tech Production Engineering</h3>
+        <div class="institution">National Institute of Technology Calicut</div>
+        <div class="duration">Kozhikode, India | July 2017 to May 2021</div>
+        <p>Engineering fundamentals, process thinking, quality focus and continuous improvement mindset.</p>
+      </div>
+    </section>
+
+    <section class="section" id="contact">
+      <h2>📩 Contact</h2>
+      <div class="contact-info">
+        <a href="mailto:srihari8168@gmail.com" class="contact-btn">📧 Email</a>
+        <a href="tel:+447393105175" class="contact-btn">📱 Phone</a>
+        <a href="https://www.linkedin.com/in/srihari-mohandas/" target="_blank" rel="noreferrer" class="contact-btn">💼 LinkedIn</a>
+        <a href="UKCV_SrihariMohandas.pdf" class="contact-btn" download>📄 Resume</a>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Scroll indicator
+    const scrollIndicator = document.getElementById('scrollIndicator');
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      scrollIndicator.style.width = progress + '%';
+    });
+
+    // Small typing line (optional)
+    const typingText = document.getElementById('typingText');
+    const lines = [
+      "Focused on quality, clarity and delivery.",
+      "Comfortable working from briefs and tight deadlines.",
+      "Strong QA habits, right first time mindset."
+    ];
+    let i = 0;
+    function rotateLine(){
+      if (!typingText) return;
+      typingText.textContent = lines[i % lines.length];
+      i += 1;
+    }
+    rotateLine();
+    setInterval(rotateLine, 2500);
+
+    // Particles (lightweight)
+    const particles = document.getElementById('particles');
+    const particleCount = 14;
+    for (let p = 0; p < particleCount; p++){
+      const el = document.createElement('div');
+      el.className = 'particle';
+      const size = 6 + Math.random() * 16;
+      el.style.width = size + 'px';
+      el.style.height = size + 'px';
+      el.style.left = Math.random() * 100 + '%';
+      el.style.top = Math.random() * 100 + '%';
+      el.style.animationDelay = (Math.random() * 6) + 's';
+      el.style.animationDuration = (10 + Math.random() * 10) + 's';
+      particles.appendChild(el);
+    }
+  </script>
+</body>
+</html>
